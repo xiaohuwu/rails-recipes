@@ -8,4 +8,5 @@ class User < ApplicationRecord
     self.email.split("@").first
   end
 
+
 end
