@@ -1,0 +1,81 @@
+<h1>Edit User</h1>
+
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_for [:admin, @user] do |f| %>
+
+  <div class="form-group">
+    <%= f.label :email %>
+    <%= f.text_field :email, :class => "form-control" %>
+  </div>
+
+
+  <div class="form-group">
+    <%= f.label :group %>
+    <%#= f.collection_check_boxes :group_ids, Group.all, :id,:name,:class => "form-control" %>
+    <%= f.select :group_ids, Group.all.collect { |item| [item.name,item.id]},{},class: "form-control",:multiple => true,id:"user_group_ids" %>
+  </div>
+
+
+<!--  <input name="addresses[][line1]" type="text"/>-->
+<!--  <input name="addresses[][line2]" type="text"/>-->
+<!--  <input name="addresses[][city]" type="text"/>-->
+
+
+
+  <%= f.fields_for :profile do |ff| %>
+    <div class="form-group">
+      <%= ff.label :legal_name %>
+      <%= ff.text_field :legal_name, :class => "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= ff.label :birthday %>
+      <%= ff.date_field :birthday, :class => "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= ff.label :location %>
+      <%= ff.text_field :location, :class => "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= ff.label :education %>
+      <%= ff.text_field :education, :class => "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= ff.label :occupation %>
+      <%= ff.text_field :occupation, :class => "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= ff.label :bio %>
+      <%= ff.text_area :bio, :class => "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= ff.label :specialty %>
+      <%= ff.text_area :specialty, :class => "form-control" %>
+    </div>
+  <% end %>
+
+
+  <div class="form-group">
+    <%= f.submit "Update", :class => "btn btn-primary" %>
+    <%= link_to "Cancel", admin_users_path %>
+  </div>
+
+<% end %>
+
+<script>
+    $("#user_group_ids").select2()
+</script>
